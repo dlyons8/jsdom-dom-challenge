@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const pause = document.getElementById('pause');
   const heart = document.getElementById('heart');
   const form = document.getElementById('comment-form');
-  const likes = document.getElementById('likes');
+  const likes = document.querySelector('ul.likes');
   let interval
 
   function increaseInterval() {
@@ -28,6 +28,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 
+  function enable(array) {
+    for (i = 0; i < array.length; i++) {
+      if (array[i].id != "pause") {
+        array[i].disabled = false
+      }
+    }
+  }
+
+  function disable(array) {
+    for (i = 0; i < array.length; i++) {
+      if (array[i].id != "pause") {
+        array[i].disabled = true
+      }
+    }
+  }
+
   start()
 
   plus.addEventListener('click', (event) => {
@@ -40,21 +56,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
     decreaseInterval();
   })
 
+// Finish this final bit of code.
   heart.addEventListener('click', (event) => {
     event.preventDefault();
-    let times = 0
-    let like = `${counter} has been liked 1 time`
-    let ul = document.createElement('li')
+    let lastIndex = document.querySelectorAll("li").length - 1
+    let lastNode = document.querySelectorAll("li")[lastIndex]
 
+    if (lastNode.dataset.num === `${counter.innerText}`) {
+      lastNode.innerHTML = `${counter.innerText} has been liked <span>1</span> times`;
+      lastNode.querySelector('span').innerHTML = parseInt(lastNode.querySelector('span').innerHTML) + 1
+    } else {
+      let li = document.createElement("li");
+      li.dataset.num = `${counter.innerText}`;
+      li.innerHTML = `${counter.innerText} has been liked <span>1</span> time`;
+      likes.appendChild(li);
+    }
   })
 
   pause.addEventListener('click', (event) => {
     event.preventDefault()
+    let buttons = document.querySelectorAll('button')
+
     if (pause.innerText == "pause") {
       stop();
+      disable(buttons);
       pause.innerText  = "resume";
     } else {
       start();
+      enable(buttons);
       pause.innerText = "pause";
     }
   })
