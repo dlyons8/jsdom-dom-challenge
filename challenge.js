@@ -56,16 +56,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
     decreaseInterval();
   })
 
-// Finish this final bit of code.
   heart.addEventListener('click', (event) => {
     event.preventDefault();
     let lastIndex = document.querySelectorAll("li").length - 1
     let lastNode = document.querySelectorAll("li")[lastIndex]
 
-    if (lastNode.dataset.num === `${counter.innerText}`) {
-      lastNode.innerHTML = `${counter.innerText} has been liked <span>1</span> times`;
+    if (lastNode && lastNode.dataset.num === `${counter.innerText}`) {
+      let currentCount = lastNode.querySelector('span').innerHTML
+      lastNode.innerHTML = `${counter.innerText} has been liked <span>${currentCount}</span> times`;
       lastNode.querySelector('span').innerHTML = parseInt(lastNode.querySelector('span').innerHTML) + 1
     } else {
+      let time = "time"
       let li = document.createElement("li");
       li.dataset.num = `${counter.innerText}`;
       li.innerHTML = `${counter.innerText} has been liked <span>1</span> time`;
